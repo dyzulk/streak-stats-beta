@@ -1,0 +1,38 @@
+{
+  "name": "streak-forge",
+  "version": "1.0.0",
+  "description": "GitHub contribution streak statistics and badges - powered by Cloudflare",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "deploy": "wrangler deploy",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "github",
+    "streak",
+    "statistics",
+    "badge",
+    "contributions",
+    "cloudflare"
+  ],
+  "dependencies": {
+    "astro": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "hono": "latest",
+    "@cloudflare/workers-types": "latest"
+  },
+  "devDependencies": {
+    "@astrojs/react": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "typescript": "latest",
+    "wrangler": "latest"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
