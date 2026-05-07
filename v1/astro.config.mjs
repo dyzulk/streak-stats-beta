@@ -16,6 +16,7 @@ export default defineConfig({
   vite: {
     ssr: {
       external: ['@cloudflare/workers-types'],
+      noExternal: ['lucide-react'],
     },
 
     plugins: [tailwindcss()],

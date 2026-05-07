@@ -2,7 +2,9 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { THEMES } from '@lib/themes';
 import { TRANSLATIONS } from '@lib/translations';
-import { Copy, Check, ExternalLink, Flame, Settings, Palette, Globe, Eye } from 'lucide-react';
+import * as Lucide from 'lucide-react';
+const LucideIcons = (Lucide as any).default || Lucide;
+const { Copy, Check, ExternalLink, Flame, Settings, Palette, Globe, Eye } = LucideIcons;
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -20,11 +22,25 @@ export default function Generator() {
 
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
   const badgeUrl = useMemo(() => {
-    const url = new URL(`${baseUrl}/${username}`);
-    if (theme !== 'default') url.searchParams.set('theme', theme);
-    if (locale !== 'en') url.searchParams.set('locale', locale);
-    if (mode !== 'daily') url.searchParams.set('mode', mode);
-    return url.toString();
+    // Fallback for SSR when window.location.origin is not available
+    if (!baseUrl) {
+      const params = new URLSearchParams();
+      if (theme !== 'default') params.set('theme', theme);
+      if (locale !== 'en') params.set('locale', locale);
+      if (mode !== 'daily') params.set('mode', mode);
+      const query = params.toString();
+      return `/${username}${query ? `?${query}` : ''}`;
+    }
+
+    try {
+      const url = new URL(`${baseUrl}/${username}`);
+      if (theme !== 'default') url.searchParams.set('theme', theme);
+      if (locale !== 'en') url.searchParams.set('locale', locale);
+      if (mode !== 'daily') url.searchParams.set('mode', mode);
+      return url.toString();
+    } catch (e) {
+      return `/${username}`;
+    }
   }, [username, theme, locale, mode, baseUrl]);
 
   const markdownCode = `[![GitHub Streak](${badgeUrl})](https://git.io/streak-stats)`;
