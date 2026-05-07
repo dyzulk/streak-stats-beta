@@ -5,19 +5,6 @@ pages_build_output_dir = "dist"
 [env.production]
 name = "streak-forge-prod"
 
-[build]
-command = "npm run build"
-
-[site]
-bucket = "./dist"
-
-[[routes]]
-pattern = "/api/*"
-custom_domain = false
-
-[build.upload]
-format = "service-worker"
-
 # Bindings (optional - uncomment if using KV cache)
 # [[kv_namespaces]]
 # binding = "CACHE"
@@ -26,3 +13,4 @@ format = "service-worker"
 # Environment variables (optional)
 [env.production.vars]
 GITHUB_API_URL = "https://api.github.com"
+
