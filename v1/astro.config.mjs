@@ -7,7 +7,7 @@ export default defineConfig({
       experimentalReactChildren: true,
     }),
   ],
-  output: 'hybrid',
+  output: 'static',
   adapter: {
     name: '@astrojs/cloudflare',
   },
