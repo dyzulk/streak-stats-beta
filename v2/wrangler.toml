@@ -4,4 +4,5 @@ compatibility_date = "2024-04-03"
 
 [[kv_namespaces]]
 binding = "STREAK_STATS"
-id = "streak_stats_kv"
+id = "c33dc43b74c84c66a2c29c9e2f79aece"
+
