@@ -113,14 +113,14 @@ src/
 │   ├── StreakDemo.tsx           # Main component
 │   ├── StreakInput.tsx          # Input form
 │   └── StatsBadge.tsx           # Badge display
-├── functions/
-│   └── api/
-│       ├── user/[username].ts   # User API
-│       └── badge/[username].ts  # Badge API
 └── lib/
     ├── github.ts                # GitHub client
     ├── calculator.ts            # Streak logic
     └── cache.ts                 # Caching utils
+functions/
+└── api/
+    ├── user/[username].ts   # User API
+    └── badge/[username].ts  # Badge API
 ```
 
 ## Troubleshooting

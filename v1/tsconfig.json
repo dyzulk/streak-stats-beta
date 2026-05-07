@@ -23,6 +23,6 @@
     },
     "types": ["@cloudflare/workers-types", "node", "vitest/globals"]
   },
-  "include": ["src"],
+  "include": ["src", "functions"],
   "exclude": ["node_modules", "dist"]
 }

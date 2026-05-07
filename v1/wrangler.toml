@@ -1,7 +1,6 @@
 name = "streak-forge"
-main = "src/index.ts"
 compatibility_date = "2024-01-01"
-pages_build_dir = "dist"
+pages_build_output_dir = "dist"
 
 [env.production]
 name = "streak-forge-prod"
