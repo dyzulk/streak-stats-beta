@@ -1,91 +1,69 @@
-/**
- * GET /api/user/[username]
- * Returns streak statistics for a GitHub user
- */
+import { getContributionGraphs, TokenPool } from "@lib/github";
+import { getContributionDates, getContributionStats, getWeeklyContributionStats, normalizeDays } from "@lib/calculator";
 
-import GitHubClient from '@lib/github';
-import { calculateStreaks } from '@lib/calculator';
-import { getCached, setCached, generateCacheKey } from '@lib/cache';
+interface Env {
+  GITHUB_TOKEN: string;
+  GITHUB_TOKEN2?: string;
+  GITHUB_TOKEN3?: string;
+  STREAK_STATS?: KVNamespace;
+}
 
-export const onRequest: PagesFunction = async (context) => {
-  const { request, params } = context;
+export const onRequestGet: PagesFunction<Env> = async (context) => {
+  const { request, env, params } = context;
   const username = params.username as string;
-
-  // Only allow GET requests
-  if (request.method !== 'GET') {
-    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-      status: 405,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
+  const url = new URL(request.url);
 
   try {
-    // Validate username
-    if (!username || typeof username !== 'string' || username.length === 0) {
-      return new Response(JSON.stringify({ error: 'Invalid username' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+    const tokenPool = new TokenPool(env as any);
+    
+    // Check cache
+    const mode = url.searchParams.get("mode") === "weekly" ? "weekly" : "daily";
+    const excludedDaysRaw = (url.searchParams.get("exclude_days") || "").split(",");
+    const excludedDays = normalizeDays(excludedDaysRaw);
+    
+    const cacheKey = `json-${username}-${mode}-${excludedDays.join(",")}`;
+    if (env.STREAK_STATS) {
+      const cached = await env.STREAK_STATS.get(cacheKey);
+      if (cached) {
+        return new Response(cached, {
+          headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "public, max-age=3600",
+          },
+        });
+      }
     }
 
-    // Try to get cached data
-    const cacheKey = generateCacheKey(username);
-    const cachedData = await getCached(cacheKey, context.env.CACHE as KVNamespace);
+    // 1. Fetch data
+    const graphs = await getContributionGraphs(username, tokenPool);
+    const contributions = getContributionDates(graphs);
 
-    if (cachedData) {
-      return new Response(JSON.stringify(cachedData), {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-          'Cache-Control': 'public, max-age=3600',
-        },
-      });
+    // 2. Calculate stats
+    const stats = mode === "weekly" 
+      ? getWeeklyContributionStats(contributions)
+      : getContributionStats(contributions, excludedDays);
+
+    const responseData = JSON.stringify(stats);
+
+    // 3. Cache and return
+    if (env.STREAK_STATS) {
+      await env.STREAK_STATS.put(cacheKey, responseData, { expirationTtl: 3600 });
     }
 
-    // Fetch from GitHub
-    const githubToken = (context.env.GITHUB_TOKEN as string) || undefined;
-    const client = new GitHubClient(githubToken);
-
-    const contributionData = await client.getUserContributions(username);
-    const streakStats = calculateStreaks({});
-
-    const response = {
-      username,
-      currentStreak: streakStats.currentStreak,
-      longestStreak: streakStats.longestStreak,
-      totalContributions: streakStats.totalContributions,
-      lastFetch: new Date().toISOString(),
-    };
-
-    // Cache the response
-    try {
-      await setCached(cacheKey, response, {
-        ttl: 3600,
-        namespace: context.env.CACHE as KVNamespace,
-      });
-    } catch {
-      // Ignore cache errors
-    }
-
-    return new Response(JSON.stringify(response), {
-      status: 200,
+    return new Response(responseData, {
       headers: {
-        'Content-Type': 'application/json',
-        'Cache-Control': 'public, max-age=3600',
+        "Content-Type": "application/json",
+        "Cache-Control": "public, max-age=3600",
+        "Access-Control-Allow-Origin": "*",
       },
     });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
-
-    return new Response(
-      JSON.stringify({
-        error: 'Failed to fetch user data',
-        message,
-      }),
-      {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      }
-    );
+  } catch (error: any) {
+    const status = error.name === "NotFoundError" ? 404 : 500;
+    return new Response(JSON.stringify({ 
+      error: error.message || "An error occurred" 
+    }), {
+      status,
+      headers: { "Content-Type": "application/json" }
+    });
   }
 };
