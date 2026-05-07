@@ -7,7 +7,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "deploy": "wrangler deploy",
+    "deploy": "wrangler deploy dist/_worker.js",
     "type-check": "tsc --noEmit"
   },
   "keywords": [],
