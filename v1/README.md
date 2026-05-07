@@ -19,21 +19,24 @@ A JavaScript/Node.js reimplementation of GitHub README streak stats, optimized f
 - **Backend**: Hono + Cloudflare Pages Functions
 - **Deployment**: Cloudflare Pages
 - **Language**: JavaScript/TypeScript
+- **Package Manager**: pnpm (⚡ fast, efficient, disk-friendly)
+
+> 📖 **New to pnpm?** See [PNPM_GUIDE.md](./PNPM_GUIDE.md) for detailed information
 
 ## Quick Start
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Development
-npm run dev
+pnpm dev
 
 # Build
-npm run build
+pnpm build
 
 # Deploy to Cloudflare
-npm run deploy
+pnpm deploy
 ```
 
 ## Project Structure
@@ -67,9 +70,23 @@ streak-forge/
 Create a `.env.local` file:
 
 ```env
-GITHUB_TOKEN=your_github_personal_access_token
+GITHUB_TOKEN=ghp_your_personal_access_token
 GITHUB_API_URL=https://api.github.com
 ```
+
+### GitHub Token (GITHUB_TOKEN)
+
+**Required Scopes**:
+- `read:user` - Read user profile
+- `public_repo` - Access public repositories
+
+**Why**: Increase API rate limit from 60 to 5000 requests/hour
+
+**How to create**: https://github.com/settings/tokens
+
+**⚠️ Important**: Use **Classic** Personal Access Token, not Fine-grained
+
+📖 **Full Guide**: See [GITHUB_TOKEN_GUIDE.md](./GITHUB_TOKEN_GUIDE.md) for detailed instructions
 
 ## API Endpoints
 

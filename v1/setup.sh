@@ -17,9 +17,18 @@ fi
 echo "✅ Node.js version: $(node --version)"
 echo ""
 
+# Check if pnpm is installed
+if ! command -v pnpm &> /dev/null; then
+    echo "❌ pnpm is not installed. Installing globally..."
+    npm install -g pnpm
+fi
+
+echo "✅ pnpm version: $(pnpm --version)"
+echo ""
+
 # Install dependencies
-echo "📦 Installing dependencies..."
-npm install
+echo "📦 Installing dependencies with pnpm..."
+pnpm install
 
 echo ""
 echo "✅ Installation complete!"
@@ -30,7 +39,7 @@ echo "1. Create .env.local with GitHub token:"
 echo "   echo 'GITHUB_TOKEN=ghp_xxxxxxxxxxxx' > .env.local"
 echo ""
 echo "2. Start development server:"
-echo "   npm run dev"
+echo "   pnpm dev"
 echo ""
 echo "3. Open http://localhost:3000 in your browser"
 echo ""

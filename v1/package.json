@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "GitHub contribution streak statistics and badges - powered by Cloudflare",
   "type": "module",
+  "packageManager": "pnpm@>=8.0.0",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -27,12 +32,10 @@
   },
   "devDependencies": {
     "@astrojs/react": "latest",
+    "@astrojs/node": "latest",
     "@types/node": "latest",
     "@types/react": "latest",
     "typescript": "latest",
     "wrangler": "latest"
-  },
-  "engines": {
-    "node": ">=18.0.0"
   }
 }

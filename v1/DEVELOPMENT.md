@@ -5,7 +5,7 @@
 1. **Clone and Install**
    ```bash
    cd streak-forge
-   npm install
+   pnpm install
    ```
 
 2. **Environment Variables**
@@ -15,19 +15,26 @@
    GITHUB_API_URL=https://api.github.com
    ```
 
-   Get a GitHub Personal Access Token:
+   Get a GitHub Personal Access Token (Classic):
    - Go to https://github.com/settings/tokens
-   - Create a new token with `public_repo` scope
-   - Copy and paste in `.env.local`
+   - Click "Generate new token (classic)"
+   - Give it a descriptive name (e.g., "Streak Forge API")
+   - **Select scopes**:
+     - ✅ `read:user` (read user profile)
+     - ✅ `public_repo` (read public repositories)
+   - Set expiration: 90-180 days
+   - Generate and copy token
+   - Paste in `.env.local`: `GITHUB_TOKEN=ghp_xxxxxxxxxxxx`
+   - **Never commit `.env.local` to git!**
 
 ## Development
 
 ```bash
 # Start dev server (localhost:3000)
-npm run dev
+pnpm dev
 
 # Type checking
-npm run type-check
+pnpm type-check
 ```
 
 Visit http://localhost:3000 to see the demo interface.
@@ -46,7 +53,7 @@ curl http://localhost:3000/api/badge/torvalds > badge.svg
 ## Building
 
 ```bash
-npm run build
+pnpm build
 ```
 
 Output goes to `dist/` directory.
@@ -56,17 +63,17 @@ Output goes to `dist/` directory.
 ### Prerequisites
 
 1. Cloudflare account
-2. Wrangler CLI installed (`npm install -g wrangler`)
+2. Wrangler CLI installed (`pnpm add -g wrangler`)
 3. Authenticated with Cloudflare (`wrangler login`)
 
 ### Deploy
 
 ```bash
 # Build first
-npm run build
+pnpm build
 
 # Deploy to Cloudflare Pages
-npm run deploy
+pnpm deploy
 
 # Or use wrangler directly
 wrangler deploy
@@ -121,23 +128,23 @@ src/
 ### "Cannot find module" errors
 ```bash
 # Clear and reinstall
-rm -rf node_modules package-lock.json
-npm install
+rm -rf node_modules pnpm-lock.yaml
+pnpm install
 ```
 
 ### TypeScript errors
 ```bash
 # Check types
-npm run type-check
+pnpm type-check
 
 # Update TypeScript
-npm update typescript
+pnpm update typescript
 ```
 
 ### Wrangler issues
 ```bash
 # Update wrangler
-npm update wrangler
+pnpm update wrangler
 
 # Clear cache
 rm -rf .wrangler

@@ -13,15 +13,28 @@ Inspired by [GitHub README Streak Stats](https://github.com/DenverCoder1/github-
 npm install
 ```
 
-### 2. Setup GitHub Token (Optional but Recommended)
+### 2. Setup GitHub Token (Optional but Highly Recommended)
+
+**Why**: Increase API rate limit from 60 to 5000 requests/hour
+
 ```bash
 # Copy example env file
 cp .env.example .env.local
 
 # Edit and add your GitHub token
-# Get one at: https://github.com/settings/tokens
 nano .env.local
 ```
+
+**To get a GitHub token**:
+1. Visit: https://github.com/settings/tokens
+2. Click "Generate new token (classic)"
+3. Select scopes:
+   - ✅ `read:user` - Read user profile
+   - ✅ `public_repo` - Read public repositories
+4. Click "Generate token"
+5. Copy token and paste into `.env.local`
+
+**Important**: Never commit `.env.local` to git!
 
 ### 3. Start Development Server
 ```bash
@@ -106,27 +119,27 @@ streak-forge/
 
 ```bash
 # Development
-npm run dev              # Start dev server
+pnpm dev              # Start dev server
 
 # Production
-npm run build            # Build for production
-npm run preview          # Preview production build
-npm run deploy           # Deploy to Cloudflare
+pnpm build            # Build for production
+pnpm preview          # Preview production build
+pnpm deploy           # Deploy to Cloudflare
 
 # Utilities
-npm run type-check       # Check TypeScript types
+pnpm type-check       # Check TypeScript types
 ```
 
 ## 🌐 Deployment to Cloudflare
 
 1. **Build the project**
    ```bash
-   npm run build
+   pnpm build
    ```
 
 2. **Install Wrangler**
    ```bash
-   npm install -g wrangler
+   pnpm add -g wrangler
    ```
 
 3. **Login to Cloudflare**
@@ -136,7 +149,7 @@ npm run type-check       # Check TypeScript types
 
 4. **Deploy**
    ```bash
-   npm run deploy
+   pnpm deploy
    ```
 
 Your site will be live at: `https://streak-forge.pages.dev`

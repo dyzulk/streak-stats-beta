@@ -228,14 +228,14 @@ Pages Functions
 
 ### Development
 ```bash
-npm run dev
+pnpm dev
 # Local testing on localhost:3000
 ```
 
 ### Production
 ```bash
-npm run build
-npm run deploy
+pnpm build
+pnpm deploy
 # Deployed to Cloudflare Pages globally
 ```
 
@@ -249,7 +249,7 @@ Cloudflare Dashboard → prod secrets
 ## Monitoring & Debugging
 
 ### Local Development
-- `npm run dev` - Hot reload
+- `pnpm dev` - Hot reload
 - Browser DevTools - Frontend debugging
 - Terminal logs - Function logs
 - Network tab - API requests

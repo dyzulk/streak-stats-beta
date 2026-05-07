@@ -42,21 +42,32 @@ streak-forge/
 ### Step 1: Install Dependencies
 ```bash
 cd c:\Users\rdp\Documents\dyzulk\streak-stats
-npm install
+pnpm install
 ```
 
-### Step 2: Setup Environment (Optional but Recommended)
+### Step 2: Setup GitHub Token (Optional but Recommended)
+
+**Why**: Increase API rate limit from 60 to 5000 requests/hour
+
 ```bash
 # Copy template
 copy .env.example .env.local
-
-# Edit .env.local and add your GitHub token
-# Get one at: https://github.com/settings/tokens
 ```
+
+**Get GitHub token**:
+1. Go to: https://github.com/settings/tokens
+2. Click "Generate new token (classic)"
+3. Select **scopes**:
+   - `read:user` (read user profile)
+   - `public_repo` (read public repositories)
+4. Click "Generate token"
+5. Copy & paste into `.env.local`: `GITHUB_TOKEN=ghp_xxxx`
+
+**⚠️ Security**: Never commit `.env.local` - it's in `.gitignore`
 
 ### Step 3: Start Development Server
 ```bash
-npm run dev
+pnpm dev
 ```
 
 Open **http://localhost:3000** in your browser! 🎉
@@ -84,8 +95,8 @@ curl http://localhost:3000/api/badge/torvalds > badge.svg
 
 ### 4. **Deploy to Production**
 ```bash
-npm run build
-npm run deploy
+pnpm build
+pnpm deploy
 # (Requires wrangler login first)
 ```
 
@@ -146,7 +157,7 @@ npm run type-check       # Check TypeScript for errors
 - **`src/lib/cache.ts`** - Cloudflare KV caching helpers
 
 ### Configuration
-- **`package.json`** - npm dependencies & scripts
+- **`package.json`** - pnpm dependencies & scripts
 - **`tsconfig.json`** - TypeScript configuration
 - **`astro.config.mjs`** - Astro framework settings
 - **`wrangler.toml`** - Cloudflare Pages config
@@ -155,14 +166,14 @@ npm run type-check       # Check TypeScript for errors
 ## Next Steps
 
 ### Short Term (Today)
-1. ✅ Run `npm install`
-2. ✅ Run `npm run dev`
+1. ✅ Run `pnpm install`
+2. ✅ Run `pnpm dev`
 3. ✅ Test with your GitHub username
 4. ✅ Customize colors/text
 
 ### Medium Term (This Week)
 1. Add GitHub token for better rate limits
-2. Deploy to Cloudflare (`npm run deploy`)
+2. Deploy to Cloudflare (`pnpm deploy`)
 3. Get custom domain (optional)
 4. Share badge code with others
 
@@ -236,4 +247,4 @@ npm run build
 
 ---
 
-**You're all set!** 🚀 Run `npm install && npm run dev` to get started!
+**You're all set!** 🚀 Run `pnpm install && pnpm dev` to get started!

@@ -19,7 +19,7 @@
 
 ### 📝 Configuration Files
 ```
-✅ package.json            - Dependencies & npm scripts
+✅ package.json            - Dependencies & pnpm scripts
 ✅ tsconfig.json           - TypeScript configuration
 ✅ astro.config.mjs        - Astro framework config
 ✅ wrangler.toml           - Cloudflare Pages config
