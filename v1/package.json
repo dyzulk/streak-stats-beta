@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "GitHub contribution streak statistics and badges - powered by Cloudflare",
   "type": "module",
-  "packageManager": "pnpm@>=8.0.0",
+  "packageManager": "pnpm@10.30.1",
   "engines": {
     "node": ">=18.0.0",
     "pnpm": ">=8.0.0"
@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "build:pages": "astro build",
     "preview": "astro preview",
     "deploy": "wrangler deploy",
     "type-check": "tsc --noEmit"
@@ -24,6 +25,7 @@
     "cloudflare"
   ],
   "dependencies": {
+    "@astrojs/cloudflare": "^13.3.1",
     "@cloudflare/workers-types": "latest",
     "@tailwindcss/vite": "^4.2.4",
     "astro": "latest",
