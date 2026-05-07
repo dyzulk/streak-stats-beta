@@ -1,8 +1,6 @@
-name = "streak-forge-v2"
-main = "./dist/_worker.js"
+name = "streak-stats-beta"
 compatibility_date = "2024-04-03"
 
 [[kv_namespaces]]
 binding = "STREAK_STATS"
 id = "c33dc43b74c84c66a2c29c9e2f79aece"
-
